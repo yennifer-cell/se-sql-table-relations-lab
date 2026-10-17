@@ -11,7 +11,7 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 
 # STEP 1
 df_boston = pd.read_sql("""
-SELECT e.firstName, e.lastName
+SELECT e.firstName, e.lastName, e.jobTitle
 FROM employees e
 JOIN offices o ON e.officeCode = o.officeCode
 WHERE o.city = 'Boston'
@@ -86,7 +86,7 @@ ORDER BY numpurchasers DESC
 df_customers = pd.read_sql("""
 SELECT o.officeCode, o.city, COUNT(DISTINCT c.customerNumber) AS n_customers
 FROM offices o
-JOIN employees e ON o.officeCode = e.officeCode
+LEFT JOIN employees e ON o.officeCode = e.officeCode
 LEFT JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
 GROUP BY o.officeCode, o.city
 ORDER BY o.officeCode
